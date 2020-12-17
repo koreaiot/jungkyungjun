@@ -1,0 +1,18 @@
+	시간 측정  
+import time
+
+start_time = time.time()
+end_time = time.time()
+
+print(시간측정,end_time - start_time)
+
+깃허브를 사용하자
+
+- 튜플은 () 리스트는 []
+튜플은 수정 불가
+
+-외울것
+list(map(int, input().split()))
+
+import sys
+sys.stdin.readline().rstrip()
