@@ -1,0 +1,605 @@
+	시간 측정 : 
+import time
+
+start_time = time.time()
+end_time = time.time()
+
+print("시간측정:",end_time - start_time)
+
+깃허브를 사용하자
+
+- 튜플은 () 리스트는 []
+튜플은 수정 불가
+
+-외울것
+list(map(int, input().split()))
+
+import sys
+sys.stdin.readline().rstrip()
+
+-----------배열만들고 수넣기---------------
+n,m = map(int, input().split())
+
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input())))
+--------------------------------------------------
+
+
+
+
+print(처음부터 : 끝까지 : 이간격으로)
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------ 소수 찾기 (에라토스테네스) --------------------
+
+import math
+
+n = 1000
+array = [True for i in range(n+1)]
+
+for i in range(2, int(math.sqrt(n))+ 1):
+    if array[i] == True:
+        j = 2
+        while i * j <= n:
+            array[i*j] = False
+            j+=1
+for i in range(2,n+1):
+    if array[i]:
+        print(i, end ="\n")
+
+
+
+
+
+-------------------------- 두 리스트의 합집합 -------------------------
+n,m = 3,4
+
+a = [1,3,5]
+b = [2,4,6,8]
+
+result = [0] * (n + m)
+i = 0
+j = 0
+k = 0
+
+while i < n or j < m:
+    if j >= m or (i < n and a[i] <= b[j]):
+        result[k] = a[i]
+        i += 1
+
+    else:
+        result[k] = b[j]
+        j += 1
+    k += 1
+
+for i in result:
+    print(i, end=' ')
+
+--------------------------------   순열 & 조합   -------------------------------
+순열 
+import itertools
+
+data = [1,2]
+
+for x in itertools.permutations(data,2):
+	print(list(x))
+
+조합은 
+itertools.combinations(data,2)
+
+-------------------------------      상하좌우      -------------------------
+
+n = int(input())
+
+x,y = 1,1
+plans = input().split()
+
+dx = [0,0,-1,1]
+dy = [-1,1,0,0]
+move_types = ['L','R','U','D']
+
+for plan in plans:
+    for i in range(len(move_types)):
+        if plan == move_types[i]:
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+    if nx < 1 or ny < 1 or nx > n or ny > n:
+        continue
+    x,y = nx, ny
+print(x,y)
+
+
+---------------------------- 시간에서 3 포함 개수 세기-------------------------
+h = int(input())
+
+count = 0
+for N in range(h+1):
+    for m in range(60):
+        for s in range(60):
+            if '3' in str(N) + str(m) + str(s):
+                count += 1
+
+print(count)
+
+
+-------------------------------- 체스 나이트 이동경우의 수 --------------------------------------
+import time
+
+input_data = input()
+
+start = time.time()
+
+row = int(input_data[1])
+column = int(ord(input_data[0])) - int(ord('a')) + 1
+
+steps = [(-2,-1) , (-2,1) , (2,-1) , (2,1) , (1,2) , (1,-2) , (-1,2) , (-1,-2)]
+result = 0
+
+for step in steps:
+    next_row = row + step[0]
+    next_column = column + step[1]
+
+    if next_row >= 1 and next_row <= 8 and next_column >= 1 and next_column <= 8:
+        result += 1
+
+print(result)
+
+------------------------------ 육지 찾는 게임------------------------------
+n,m = map(int, input().split())
+
+visit = [[0] * m for _ in range(n)]
+
+x,y,direction = map(int, input().split())
+visit[x][y] = 1
+
+array = []
+
+for i in range(n):
+    array.append(list(map(int, input().split())))
+
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
+
+def turn_left():
+    global direction
+    direction -= 1
+    if direction == -1:
+        direction = 3
+
+count = 1
+turn_time = 0
+while True:
+    turn_left()
+    nx = x + dx[direction]
+    ny = y + dy[direction]
+
+    if visit[nx][ny] == 0 and array[nx][ny] == 0:
+        visit[nx][ny] == 1
+        x = nx
+        y = ny
+        count += 1
+        turn_time = 0
+        continue
+    else:
+        turn_time += 1
+    if turn_time == 4:
+        nx = x - dx[direction]
+        ny = y - dx[direction]
+
+        if array[nx][ny] == 0:
+            x = nx
+            y = ny
+        else:
+            break
+        turn_time = 0
+
+print(count)
+
+STACK은 선입후출 또는 후입선출
+append() , pop()
+
+Queue는 선입선출
+from collections import deque
+queue = deque()
+queue.append(),  queue.popleft()
+
+------------------------------------------------문자 리스트 정렬하기 -------------------
+data = input()
+result = []
+value = 0
+
+for x in data:
+    if x.isalpha():
+        result.append(x)
+    else:
+        value += int(x)
+result.sort()
+if value != 0:
+    result.append(str(value))
+
+print(''.join(result))
+
+-------------------------------------- 팩토리얼 ---------------------------------
+def factorial_recursive(n):
+    if n <= 1:
+        return 1
+
+    return n * factorial_recursive(n-1)
+
+print(factorial_recursive(5))
+
+
+---------------------------------------깊이우선탐색(DFS)----------------------------
+스택, 재귀함수 이용,
+
+def dfs(graph, v, visited):
+    visited[v] = True
+    print(v, end=' ')
+
+    for i in graph[v]:
+        if not visited[i]:
+            dfs(graph, i, visited)
+
+graph = [
+    [],
+    [2, 3, 8],
+    [1, 7],
+    [1, 4, 5],
+    [3, 5],
+    [3, 4],
+    [7],
+    [2, 6, 8],
+    [1, 7]
+]
+
+visited = [False] * 9
+
+dfs(graph, 1, visited)
+
+-------------------------------------------------너비우선탐색(BFS)---------------------------------
+DFS보다는 BFS 구현이 조금더 빠르다. queue 를 이용함.
+
+from collections import deque
+
+def bfs(graph, start, visited):
+    queue = deque([start])
+    visited[start] = True
+
+    while queue:
+        v = queue.popleft()
+        print(v, end=' ')
+        for i in graph[v]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+                
+graph = [
+    [],
+    [2, 3, 8],
+    [1, 7],
+    [1, 4, 5],
+    [3, 5],
+    [3, 4],
+    [7],
+    [2, 6, 8],
+    [1, 7]
+]
+
+visited = [False] * 9
+
+bfs(graph, 1, visited)
+
+---------------------------------------------------아이스크림 문제------------------
+n,m = map(int, input().split())
+
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input())))
+
+def dfs(x,y):
+    if x <= -1 or x >= n or y <= -1 or y >= m:
+        return False
+
+    if graph[x][y] == 0: #현재노드를 아직 방문하지 않았다면
+        graph[x][y] == 1
+        dfs(x - 1, y)
+        dfs(x, y - 1)
+        dfs(x + 1, y)
+        dfs(x, y + 1)
+        return True
+    return False
+
+result = 0
+for i in range(n):
+    for j in range(m):
+        if dfs(i,j) == True:
+            result += 1
+
+print(result)
+-------------------------------------------------------미로찾기--------------------------------
+from collections import deque
+
+n, m = map(int, input().split())
+
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input())))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def bfs(x, y):
+    queue = deque()
+    queue.append((x, y))
+
+    while queue:
+        x, y = queue.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[y]
+
+            if nx<0 or ny<0 or nx>=n or ny>=m:
+                continue
+            if graph[nx][ny] == 0:
+                continue
+            if graph[nx][ny] == 1:
+                graph[nx][ny] = graph[x][y] + 1
+                queue.append((nx, ny))
+
+    return graph[n-1][m-1]
+
+print(bfs(0, 0))
+---------------------------------------------선택코드정렬-------------------
+array = [7,5,9,0,3,1,6,2,4,8]
+
+for i in range(len(array)):
+    min_index = i
+    for j in range(i+1,len(array)):
+        if array[min_index] > array[j]:
+            min_index = j
+    array[i],array[min_index] = array[min_index],array[i]
+
+print(array)
+
+--------------------------------------------------------선택코드정렬 내코드-------- (2번째부터 제일 작은거 골라서 첫번쨰랑 바꿔 반복)
+import numpy as np
+array = np.random.randint(1,10,100)
+print(array)
+
+for i in range(len(array)):
+    for j in range(i+1,len(array)):
+        if array[i] > min(array[j:]):
+            array[i],array[j] = array[j],array[i]
+
+print(array)
+----------------------------------------------삽입정렬 코드----------------------- (2번째 부터, 어디 들어가면 되는지 비교한다 반복)
+array = [7,5,9,0,3,1,6,2,4,8]
+
+for i in range(1, len(array)):
+    for j in range(i, 0, -1):
+        if array[j] < array[j-1]:
+            array[j], array[j-1] = array[j-1],array[j]
+        else:
+            break
+print(array)
+----------------------------------------퀵정렬---------------------------------------- 
+(피벗을 5로 정해, 5기준으로 오른쪽으로 가면서 큰걸 찾아, 왼쪽으로 가면서 작은걸 찾아, 작은거랑 큰거랑 위치바꿔)
+(7이랑 4랑 바뀌겠네, 엇갈릴떄까지 반복해, 엇갈리면 작은데이터랑 피벗이랑 위치바꿔, 피벗기준으로 왼쪽파트 오른쪽파트 반복해
+array = [5,7,9,0,3,1,6,2,4,8]
+
+def quick_sort(array):
+    if len(array) <= 1:
+        return array
+
+    pivot = array[0]
+    tail = array[1:]   # pivot을 제외한 리스트
+
+    left_side = [x for x in tail if x <= pivot]    # 처음엔 0,3,1,2,4 가 저장되겠네
+    right_side = [x for x in tail if x > pivot]
+
+    return quick_sort(left_side) + [pivot] + quick_sort(right_side)
+
+print(quick_sort(array))
+
+# 삽입정렬은 정렬된 데이터에서는 매우 빠른데, 퀵정렬은 느리다.
+----------------------------------계수정렬------------------------------------------
+(범위가 0~9까지니까  크기가 10인 빈리스트를 만들어야함 각각의 개수를 세고, 차례대로 개수만큼 출력)
+array = [7,5,9,0,3,1,6,2,9,1,4,8,0,5,2]
+count = [0] * (max(array) + 1)
+
+for i in range(len(array)):
+    count[array[i]] += 1
+
+for i in range(len(count)):
+    for j in range(count[i]):
+        print(i, end=' ')
+
+------------------------------------------이진탐색코드(재귀함수)--------------------------------
+def binary_search(array, target, start, end):
+    if start > end:
+        return None
+    mid = (start + end) // 2
+
+    if array[mid] == target:
+        return mid
+
+    elif array[mid] > target:
+        return binary_search(array,target,start, mid-1)
+    else:
+        return binary_search(array,target,mid+1,end)
+
+n, target = list(map(int,input().split()))
+
+array = list(map(int,input().split()))
+
+result = binary_search(array,target,0,n-1)
+if result == None:
+    print("원소가 존재하지 않는다.")
+else:
+    print(result +1)
+
+
+------------------------------------------이진탐색코드(반복문)--------------------------------------
+def binary_search(array,target,start,end):
+    while start <= end:
+        mid = (start+end) // 2
+
+        if array[mid] == target:
+            return mid
+
+        elif array[mid] > target:
+            end = mid -1
+        else:
+            start = mid + 1
+    return None
+
+n, target = list(map(int,input().split()))
+
+array = list(map(int,input().split()))
+
+result = binary_search(array,target,0,n-1)
+if result == None:
+    print("원소가 존재하지 않는다.")
+else:
+    print(result +1)
+
+----------------------------------------------------------부품찾기(2진사용)-------------------------
+def binary_search(array,target,start,end):
+    while start <= end:
+        mid = (start + end) // 2
+
+        if array[mid] == target:
+            return mid
+
+        elif array[mid] > target:
+            end = mid - 1
+
+        else:
+            start = mid + 1
+    return None
+
+n = int(input())
+
+array = list(map(int, input().split()))
+array.sort()
+
+m = int(input())
+x = list(map(int, input().split()))
+
+for i in x:
+    result = binary_search(array,i,0,n-1)
+    if result != None:
+        print("yes",end= ' ')
+    else:
+        print('no', end=' ')
+(부품찾기 문제는 계수정렬 or 집합자료형으로도 풀 수 있음)
+
+-----------------------------------------------떡볶이 떡 만들기(P.179)---------------------
+N, M = list(map(int,input().split(" ")))
+array = list(map(int,input().split()))
+start = 0
+end = max(array)
+result = 0
+
+while start <= end:
+    total = 0
+    mid = (start + end) // 2
+    for x in array:
+        if x > mid:
+            total += x-mid
+
+    if total < M:
+        end = mid-1
+    else:
+        result = mid
+        start = mid + 1
+
+print(result)
+
+
+------------------------------------------------피보나치-------------------------------------(시간복잡도가 너무 크다)
+def fibo(x):
+    if x == 1 or x == 2:
+        return 1
+
+    return fibo(x-1) + fibo(x-2)
+
+print(fibo(10))          <-----------fibo(6)이라는 걸 많이 계산한다.
+이러한 문제는 다이나믹 프로그래밍을 사용할 수 있다.
+조건 1) 큰 문제를 작은 문제로 나눌 수 있다.
+조건 2) 작은 문제에서 구한 정답은 그것을 포함하는 큰 문제에서도 동일하다.
+ 
+---------------------------------------피보나치 수열(메모이제이션 = 캐싱)수법----------------------------------------
+(재귀적) 큰 문제를 해결하기 위해 작은 문제를 호출한다. <-- 탑다운 방식(하향식)
+d = [0] * 100
+
+def fibo(x):
+    if x== 1 or x == 2:
+        return 1
+
+    #이미 계산한 적 있는 문제라면 그대로 반환
+    if d[x] != 0:
+        return d[x]
+    
+    # 아직 계산하지 않은 문제라면 점화식에 따라서 피보나치 결과 반환
+    d[x] = fibo(x-1) + fibo(x-2)
+    return d[x]
+
+print(fibo(99))
+
+
+---------------------------------------피보나치 수열---------------------------------------
+(반복적) 작은 문제부터 차근차근 답을 도출한다. <-- 보텀업 방식(상향식)
+
+d = [0] * 100
+
+d[1] = 1
+d[2] = 1
+
+n = 99
+
+for i in range(3,n+1):
+    d[i] = d[i-1] + d[i-2]
+
+print(d[n])
+
+------------------------------------------1로 만들기(다이나믹 기법)p.195----------------------------------------
+x = int(input())
+
+d = [0] * 30001
+
+for i in range(2, x+1):
+    d[i] = d[i-1] + 1
+
+    if i % 2 == 0:
+        d[i] = min(d[i], d[i//2] + 1)
+    if i % 3 == 0:
+        d[i] = min(d[i], d[i//3] + 1)
+    if i % 5 == 0:
+        d[i] = min(d[i], d[i//5] + 1)
+
+print(d[x])
+
+----------------------------------------------
+
+
+
+
+
+
+
+
+
